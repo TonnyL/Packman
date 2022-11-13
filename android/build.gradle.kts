@@ -7,17 +7,12 @@ plugins {
 group "com.lizhaotailang.packman"
 version "1.0-SNAPSHOT"
 
-dependencies {
-    implementation(project(":common"))
-    implementation("androidx.activity:activity-compose:1.5.0")
-}
-
 android {
-    compileSdk = 33
+    compileSdk = Versions.compileSdk
     defaultConfig {
         applicationId = "com.lizhaotailang.packman.android"
-        minSdk = 24
-        targetSdk = 33
+        minSdk = Versions.minSdk
+        targetSdk = Versions.targetSdk
         versionCode = 1
         versionName = "1.0-SNAPSHOT"
     }
@@ -30,4 +25,16 @@ android {
             isMinifyEnabled = false
         }
     }
+}
+
+dependencies {
+    implementation(project(":common"))
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.material.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.navigation.compose)
 }

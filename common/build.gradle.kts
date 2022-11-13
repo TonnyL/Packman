@@ -1,8 +1,11 @@
+import org.jetbrains.compose.ExperimentalComposeLibrary
+
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     id("com.android.library")
-    id("com.apollographql.apollo3").version("3.7.0")
+    id("kotlinx-serialization")
+    id("com.apollographql.apollo3").version(libs.versions.apollo)
 }
 
 group = "com.lizhaotailang.packman"
@@ -18,14 +21,15 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(compose.runtime)
-                api(compose.foundation)
-                api(compose.material)
+                api(libs.apollo.runtime)
+                api(libs.apollo.adapters)
 
-                implementation("com.apollographql.apollo3:apollo-runtime:3.7.0")
-                implementation("com.apollographql.apollo3:apollo-adapters:3.7.0")
+                api(libs.kotlin.datetime)
 
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+                api(libs.ktor.core)
+                api(libs.ktor.serialization)
+                api(libs.ktor.logging)
+                api(libs.ktor.content.negotiation)
             }
         }
         val commonTest by getting {
@@ -35,18 +39,29 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.appcompat:appcompat:1.5.1")
-                api("androidx.core:core-ktx:1.9.0")
+                api(compose.runtime)
+                api(compose.foundation)
+                @OptIn(ExperimentalComposeLibrary::class)
+                api(compose.material3)
+                api(compose.preview)
+
+                api(libs.ktor.cio)
             }
         }
         val androidTest by getting {
             dependencies {
-                implementation("junit:junit:4.13.2")
+                implementation(libs.junit4)
             }
         }
         val desktopMain by getting {
             dependencies {
+                api(compose.runtime)
+                api(compose.foundation)
+                @OptIn(ExperimentalComposeLibrary::class)
+                api(compose.material3)
                 api(compose.preview)
+
+                api(libs.ktor.cio)
             }
         }
         val desktopTest by getting
@@ -54,11 +69,11 @@ kotlin {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = Versions.compileSdk
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdk = 24
-        targetSdk = 33
+        minSdk = Versions.minSdk
+        targetSdk = Versions.targetSdk
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -78,5 +93,6 @@ apollo {
         generateApolloMetadata.set(true)
         srcDir(file("src/commonMain/graphql/"))
         mapScalar("Time", "kotlinx.datetime.Instant")
+        mapScalar("JobID", "kotlin.String")
     }
 }
