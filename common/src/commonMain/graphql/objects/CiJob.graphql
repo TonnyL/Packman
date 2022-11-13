@@ -1,0 +1,17 @@
+fragment CiJob on CiJob {
+  active
+  allowFailure
+  cancelable
+  createdAt
+  duration
+  finishedAt
+  name
+  id
+  refName
+  retryable
+  status
+  triggered
+  pipeline {
+    ...Pipeline
+  }
+}
