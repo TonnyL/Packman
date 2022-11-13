@@ -1,18 +1,18 @@
 group "com.lizhaotailang.packman"
 version "1.0-SNAPSHOT"
 
-allprojects {
+buildscript {
     repositories {
         google()
+        gradlePluginPortal()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
-}
 
-plugins {
-    kotlin("multiplatform") apply false
-    kotlin("android") apply false
-    id("com.android.application") apply false
-    id("com.android.library") apply false
-    id("org.jetbrains.compose") apply false
+    dependencies {
+        classpath(libs.android.gradlePlugin)
+        classpath(libs.kotlin.gradlePlugin)
+        classpath(libs.compose.multiplatformPlugin)
+        classpath(libs.kotlin.serialization.gradlePlugin)
+    }
 }
