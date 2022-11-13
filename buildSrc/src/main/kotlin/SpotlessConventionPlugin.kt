@@ -15,7 +15,15 @@ class SpotlessConventionPlugin : Plugin<Project> {
                         fileTree(
                             mapOf(
                                 "dir" to ".",
-                                "include" to listOf("**/*.md", "**/.gitignore", "**/*.yaml", "**/*.yml", "**/*.toml", "**/*.properties", "**/*.pro"),
+                                "include" to listOf(
+                                    "**/*.md",
+                                    "**/.gitignore",
+                                    "**/*.yaml",
+                                    "**/*.yml",
+                                    "**/*.toml",
+                                    "**/*.properties",
+                                    "**/*.pro"
+                                ),
                                 "exclude" to listOf(
                                     "**/.gradle/**",
                                     "**/.gradle-cache/**",
@@ -36,15 +44,14 @@ class SpotlessConventionPlugin : Plugin<Project> {
                     endWithNewline()
                 }
 
+                val kotlinEditorConfigOverride = mapOf(
+                    "disabled_rules" to "no-wildcard-imports,no-unused-imports,no-blank-line-before-rbrace,chain-wrapping",
+                    "android" to "true"
+                )
                 kotlin {
                     target("**/*.kt")
                     ktlint()
-                        .editorConfigOverride(
-                            mapOf(
-                                "disabled_rules" to "no-wildcard-imports,no-unused-imports,no-blank-line-before-rbrace",
-                                "android" to "true"
-                            )
-                        )
+                        .editorConfigOverride(kotlinEditorConfigOverride)
                     trimTrailingWhitespace()
                     endWithNewline()
                 }
@@ -52,12 +59,7 @@ class SpotlessConventionPlugin : Plugin<Project> {
                 kotlinGradle {
                     target("**/*.kts")
                     ktlint()
-                        .editorConfigOverride(
-                            mapOf(
-                                "disabled_rules" to "no-wildcard-imports,no-unused-imports,no-blank-line-before-rbrace",
-                                "android" to "true"
-                            )
-                        )
+                        .editorConfigOverride(kotlinEditorConfigOverride)
                     trimTrailingWhitespace()
                     endWithNewline()
                 }
