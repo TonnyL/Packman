@@ -1,0 +1,4 @@
+fragment UserCore on UserCore {
+  name
+  username
+}
