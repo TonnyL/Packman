@@ -1,3 +1,6 @@
+import com.android.build.api.dsl.ApkSigningConfig
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("org.jetbrains.compose")
     id("com.android.application")
@@ -9,6 +12,10 @@ version "1.0-SNAPSHOT"
 
 android {
     compileSdk = Versions.compileSdk
+
+    val localProperties = gradleLocalProperties(rootDir)
+    val hasStoreFilePath = localProperties.getProperty("STORE_FILE_PATH") != null
+
     defaultConfig {
         applicationId = "com.lizhaotailang.packman.android"
         minSdk = Versions.minSdk
@@ -20,9 +27,41 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    fun ApkSigningConfig.applySigningConfig() {
+        storeFile = rootProject.file(localProperties.getProperty("STORE_FILE_PATH"))
+        storePassword = localProperties.getProperty("STORE_PASSWORD")
+        keyAlias = localProperties.getProperty("KEY_ALIAS")
+        keyPassword = localProperties.getProperty("KEY_PASSWORD")
+    }
+
+    val releaseSignConfig = "release"
+    println("hasPropertiesFile: $hasStoreFilePath")
+    signingConfigs {
+        if (hasStoreFilePath) {
+            create(releaseSignConfig) {
+                applySigningConfig()
+            }
+        }
+        getByName("debug") {
+            if (hasStoreFilePath) {
+                applySigningConfig()
+            }
+        }
+    }
     buildTypes {
         getByName("release") {
+            if (hasStoreFilePath) {
+                signingConfig = signingConfigs.getByName(releaseSignConfig)
+            }
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        getByName("debug") {
             isMinifyEnabled = false
+            versionNameSuffix = "-debug"
         }
     }
 }
