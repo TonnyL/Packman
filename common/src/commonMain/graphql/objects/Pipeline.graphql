@@ -1,0 +1,13 @@
+fragment Pipeline on Pipeline {
+  id
+  iid
+  status
+  user {
+    ...UserCore
+  }
+  createdAt
+  duration
+  complete
+  cancelable
+  retryable
+}

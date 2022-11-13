@@ -1,0 +1,13 @@
+query AllJobs($projectPath: ID!, $after: String, $before: String, $perPage: Int!) {
+  project(fullPath: $projectPath) {
+    id
+    allJobs: jobs(statuses: [CANCELED, CREATED, FAILED, MANUAL, PENDING, PREPARING, RUNNING, SCHEDULED, SKIPPED, SUCCESS, WAITING_FOR_RESOURCE], first: $perPage, after: $after, before: $before) {
+      nodes {
+        ...CiJob
+      }
+      pageInfo {
+        ...PageInfo
+      }
+    }
+  }
+}
