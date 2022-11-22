@@ -17,6 +17,8 @@ pagingCompose = "1.0.0-alpha17"
 material2 = "1.4.0-alpha02"
 ktor = "2.1.3"
 buildKonfig = "0.13.3"
+accompanist = "0.27.1"
+mdc = "1.8.0-alpha02"
 
 [plugins]
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -42,6 +44,8 @@ ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = 
 ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
+mdc-android = { group = "com.google.android.material", name = "material", version.ref = "mdc" }
 
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }

@@ -45,7 +45,7 @@ class HomeViewModel : ViewModel() {
             try {
                 _snackbarMessage.emit(newMessage)
             } catch (e: Exception) {
-                Log.d("HomeViewModel", null, e)
+                Log.e("HomeViewModel", null, e)
             }
         }
     }
@@ -68,8 +68,12 @@ class HomeViewModel : ViewModel() {
                 ).body()
 
                 _requestFlow.emit(Resource.success(data = pipeline))
+
+                showSnackbarMessage(newMessage = "Success")
             } catch (e: Exception) {
                 _requestFlow.emit(Resource.failed(exception = e, data = null))
+
+                Log.e("HomeViewModel", null, e)
 
                 showSnackbarMessage("Failed to run pipeline")
             }
