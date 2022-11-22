@@ -53,7 +53,7 @@ android {
             if (hasStoreFilePath) {
                 signingConfig = signingConfigs.getByName(releaseSignConfig)
             }
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -61,7 +61,6 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            versionNameSuffix = "-debug"
         }
     }
 }
@@ -76,4 +75,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.accompanist.systemuicontroller)
+    implementation(libs.mdc.android)
 }

@@ -45,7 +45,7 @@ class SpotlessConventionPlugin : Plugin<Project> {
                 }
 
                 val kotlinEditorConfigOverride = mapOf(
-                    "disabled_rules" to "no-wildcard-imports,no-unused-imports,no-blank-line-before-rbrace,chain-wrapping",
+                    "disabled_rules" to "no-wildcard-imports,no-unused-imports,no-blank-line-before-rbrace,chain-wrapping,no-empty-first-line-in-method-block",
                     "android" to "true"
                 )
                 kotlin {
