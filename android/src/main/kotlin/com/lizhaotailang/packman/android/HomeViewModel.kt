@@ -1,24 +1,31 @@
 package com.lizhaotailang.packman.android
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.cachedIn
 import com.lizhaotailang.packman.android.jobs.JobsDataSource
+import com.lizhaotailang.packman.common.data.History
 import com.lizhaotailang.packman.common.data.Pipeline
+import com.lizhaotailang.packman.common.data.toRealmInstant
+import com.lizhaotailang.packman.common.database.PackmanDatabase
+import com.lizhaotailang.packman.common.database.realmFilePath
 import com.lizhaotailang.packman.common.network.ApolloGraphQLClient
 import com.lizhaotailang.packman.common.network.Resource
 import com.lizhaotailang.packman.common.network.Status
 import com.lizhaotailang.packman.common.network.api.GitLabApi
 import com.lizhaotailang.packman.common.ui.new.Variant
 import io.ktor.client.call.body
+import io.realm.kotlin.ext.query
+import io.realm.kotlin.ext.toRealmList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(app: Application) : AndroidViewModel(app) {
 
     private val gitLabApi = GitLabApi()
 
@@ -28,6 +35,11 @@ class HomeViewModel : ViewModel() {
 
     private val _snackbarMessage = MutableStateFlow("")
     val snackbarMessage: StateFlow<String> = _snackbarMessage
+
+    val database = PackmanDatabase(
+        scope = viewModelScope,
+        realmFilePath = realmFilePath(getApplication())
+    )
 
     val jobsFlow by lazy {
         Pager(
@@ -45,7 +57,7 @@ class HomeViewModel : ViewModel() {
             try {
                 _snackbarMessage.emit(newMessage)
             } catch (e: Exception) {
-                Log.e("HomeViewModel", null, e)
+                Log.e(TAG, null, e)
             }
         }
     }
@@ -69,20 +81,53 @@ class HomeViewModel : ViewModel() {
 
                 _requestFlow.emit(Resource.success(data = pipeline))
 
+                database.realm.write {
+                    this.copyToRealm(
+                        History().apply {
+                            this.branch = branch
+                            this.variants = variants.map { it.ordinal }.toRealmList()
+                            this.pipelineId = pipeline.id
+                            this.startedAt = pipeline.createdAt.toRealmInstant()
+                        }
+                    )
+                }
+
                 showSnackbarMessage(newMessage = "Success")
             } catch (e: Exception) {
                 _requestFlow.emit(Resource.failed(exception = e, data = null))
 
-                Log.e("HomeViewModel", null, e)
+                Log.e(TAG, null, e)
 
                 showSnackbarMessage("Failed to run pipeline")
             }
         }
     }
 
+    fun deleteHistory(history: History) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                database.realm.write {
+                    val h = this.query<History>("_id == $0", history._id)
+                        .find()
+                        .first()
+                    delete(h)
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, null, e)
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        database.realm.close()
+    }
+
     companion object {
 
         const val KEY_HOME_SCREEN = "key_home_screen"
+
+        private const val TAG = "HomeViewModel"
 
     }
 
