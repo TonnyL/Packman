@@ -9,6 +9,7 @@ plugins {
     id("kotlinx-serialization")
     id("com.apollographql.apollo3").version(libs.versions.apollo)
     id("com.codingfeline.buildkonfig")
+    id("io.realm.kotlin")
 }
 
 group = "com.lizhaotailang.packman"
@@ -24,6 +25,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(compose.runtime)
+                api(compose.foundation)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                api(compose.material3)
+                api(compose.material)
+                api(compose.preview)
+
                 api(libs.apollo.runtime)
                 api(libs.apollo.adapters)
 
@@ -33,6 +41,8 @@ kotlin {
                 api(libs.ktor.serialization)
                 api(libs.ktor.logging)
                 api(libs.ktor.content.negotiation)
+
+                api(libs.realm)
             }
         }
         val commonTest by getting {
