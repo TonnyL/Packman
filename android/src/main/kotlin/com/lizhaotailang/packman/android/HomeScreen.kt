@@ -1,12 +1,12 @@
 package com.lizhaotailang.packman.android
 
 import android.app.Application
-import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -14,14 +14,13 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -29,6 +28,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.lizhaotailang.packman.android.debug.DebugScreen
 import com.lizhaotailang.packman.android.jobs.JobsScreen
 import com.lizhaotailang.packman.android.new.NewJobScreen
 import com.lizhaotailang.packman.common.R
@@ -38,7 +38,8 @@ import com.lizhaotailang.packman.common.ui.icon
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalLifecycleComposeApi::class
+    ExperimentalLifecycleComposeApi::class,
+    ExperimentalFoundationApi::class
 )
 @Composable
 fun HomeScreen() {
@@ -46,6 +47,8 @@ fun HomeScreen() {
 
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
+
+    val navController = LocalNavController.current
 
     val viewModel = viewModel(
         key = HomeViewModel.KEY_HOME_SCREEN,
@@ -58,15 +61,20 @@ fun HomeScreen() {
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
+            PackmanTopBar(
                 title = {
-                    Text(text = stringResource(id = R.string.app_name))
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                        elevation = NavigationBarDefaults.Elevation
+                    Text(
+                        text = stringResource(id = R.string.app_name),
+                        modifier = Modifier.combinedClickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null,
+                            onClick = {},
+                            onLongClick = {
+                                navController.navigate(route = Screen.DebugScreen.route)
+                            }
+                        )
                     )
-                )
+                }
             )
         },
         bottomBar = {
@@ -133,6 +141,10 @@ fun MainNavHost(startDestination: Screen) {
         composable(route = Screen.HomeScreen.route) {
             currentRoute.value = Screen.HomeScreen.route
             HomeScreen()
+        }
+        composable(route = Screen.DebugScreen.route) {
+            currentRoute.value = Screen.DebugScreen.route
+            DebugScreen()
         }
     }
 }
