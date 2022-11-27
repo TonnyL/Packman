@@ -1,5 +1,6 @@
 package com.lizhaotailang.packman.common.ui.new
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -19,8 +21,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.lizhaotailang.packman.common.data.History
 import com.lizhaotailang.packman.common.data.Pipeline
+import com.lizhaotailang.packman.common.data.toInstant
 import com.lizhaotailang.packman.common.network.Resource
 import com.lizhaotailang.packman.common.network.Status
 import com.lizhaotailang.packman.common.ui.FlowRow
@@ -44,14 +49,10 @@ fun NewJobConfigurationItem(
             },
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(height = 16.dp)
-        )
         Text(
             text = "Variants",
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(vertical = 16.dp)
         )
         FlowRow(modifier = Modifier.fillMaxWidth()) {
             Variant.values().forEachIndexed { index, variant ->
@@ -99,4 +100,26 @@ fun NewJobConfigurationItem(
             Text(text = "Run")
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HistoryItem(
+    history: History,
+    onClick: (History) -> Unit
+) {
+    ListItem(
+        headlineText = {
+            Text(text = history.branch)
+        },
+        supportingText = {
+            val variants = history.variants.map { Variant.values()[it] }.joinToString()
+            Text(text = "${variants}\n${history.startedAt.toInstant()}")
+        },
+        modifier = Modifier
+            .clip(shape = MaterialTheme.shapes.medium)
+            .clickable {
+                onClick.invoke(history)
+            }
+    )
 }

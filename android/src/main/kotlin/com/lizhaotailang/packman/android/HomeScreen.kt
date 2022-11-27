@@ -1,5 +1,6 @@
 package com.lizhaotailang.packman.android
 
+import android.app.Application
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -21,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -34,17 +36,21 @@ import com.lizhaotailang.packman.common.ui.MainScreenNavigationItem
 import com.lizhaotailang.packman.common.ui.Screen
 import com.lizhaotailang.packman.common.ui.icon
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalLifecycleComposeApi::class
+)
 @Composable
 fun HomeScreen() {
     var selectedItem by remember { mutableStateOf(MainScreenNavigationItem.Jobs) }
 
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     val viewModel = viewModel(
         key = HomeViewModel.KEY_HOME_SCREEN,
         initializer = {
-            HomeViewModel()
+            HomeViewModel(app = context.applicationContext as Application)
         }
     )
 

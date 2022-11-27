@@ -15,6 +15,7 @@ buildscript {
         classpath(libs.compose.multiplatformPlugin)
         classpath(libs.kotlin.serialization.gradlePlugin)
         classpath(libs.build.konfig)
+        classpath(libs.realm.gradlePlugin)
     }
 }
 
