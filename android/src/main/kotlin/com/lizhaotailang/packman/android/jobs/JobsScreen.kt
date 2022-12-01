@@ -1,16 +1,9 @@
 package com.lizhaotailang.packman.android.jobs
 
 import android.app.Application
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
@@ -18,28 +11,22 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import com.lizhaotailang.packman.android.CiJobPreviewProviders
+import com.lizhaotailang.packman.android.ErrorScreen
 import com.lizhaotailang.packman.android.HomeViewModel
 import com.lizhaotailang.packman.android.LocalNavController
-import com.lizhaotailang.packman.android.R
 import com.lizhaotailang.packman.common.ui.Screen
 import com.lizhaotailang.packman.common.ui.jobs.JobListItem
 import com.lizhaotailang.packman.graphql.fragment.CiJob
@@ -64,36 +51,8 @@ fun JobsScreen(innerPaddings: PaddingValues) {
 
     when (jobs.loadState.refresh) {
         is LoadState.Error -> {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(all = 64.dp)
-            ) {
-                val reload = {
-                    jobs.refresh()
-                }
-
-                Image(
-                    painter = painterResource(id = R.drawable.something_wrong),
-                    contentDescription = null,
-                    modifier = Modifier.clickable(
-                        onClick = reload,
-                        indication = null,
-                        interactionSource = remember { MutableInteractionSource() }
-                    )
-                )
-                Spacer(modifier = Modifier.height(height = 16.dp))
-                TextButton(onClick = reload) {
-                    Text(
-                        text = "Something went wrong, tap to reload...",
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
+            ErrorScreen(action = jobs::refresh)
         }
-
         LoadState.Loading,
         is LoadState.NotLoading -> {
             Box(
