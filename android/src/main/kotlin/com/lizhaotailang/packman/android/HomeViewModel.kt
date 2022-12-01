@@ -46,7 +46,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
             config = defaultPagingConfig,
             pagingSourceFactory = {
                 JobsDataSource(
-                    apolloClient = ApolloGraphQLClient(accessToken = "Q4V7iHH2beDvyhKW1YJT").apolloClient
+                    apolloClient = ApolloGraphQLClient.CLIENT.apolloClient
                 )
             }
         ).flow.cachedIn(scope = viewModelScope)

@@ -1,13 +1,16 @@
 package com.lizhaotailang.packman.common.ui.jobs
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +28,10 @@ import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun JobListItem(job: CiJob) {
+fun JobListItem(
+    job: CiJob,
+    navigate: (CiJob) -> Unit
+) {
     ListItem(
         headlineText = {
             Text(
@@ -78,7 +84,13 @@ fun JobListItem(job: CiJob) {
                     )
                 }
             }
-        }
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape = MaterialTheme.shapes.medium)
+            .clickable {
+                navigate.invoke(job)
+            }
     )
 }
 
