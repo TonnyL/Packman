@@ -5,6 +5,7 @@ import com.apollographql.apollo3.adapter.KotlinxInstantAdapter
 import com.apollographql.apollo3.api.http.HttpHeader
 import com.apollographql.apollo3.network.http.HttpNetworkTransport
 import com.apollographql.apollo3.network.http.LoggingInterceptor
+import com.lizhaotailang.packman.common.CommonBuildConfig
 import com.lizhaotailang.packman.graphql.type.JobID
 import com.lizhaotailang.packman.graphql.type.Time
 
@@ -39,6 +40,8 @@ class ApolloGraphQLClient(accessToken: String) {
     companion object {
 
         private const val SERVER_URL = "https://gitlab.insta360.com/api/graphql"
+
+        val CLIENT = ApolloGraphQLClient(accessToken = CommonBuildConfig.ACCESS_TOKEN)
 
     }
 
