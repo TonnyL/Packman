@@ -38,7 +38,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import com.lizhaotailang.packman.android.CiJobPreviewProviders
 import com.lizhaotailang.packman.android.HomeViewModel
+import com.lizhaotailang.packman.android.LocalNavController
 import com.lizhaotailang.packman.android.R
+import com.lizhaotailang.packman.common.ui.Screen
 import com.lizhaotailang.packman.common.ui.jobs.JobListItem
 import com.lizhaotailang.packman.graphql.fragment.CiJob
 import com.lizhaotailang.packman.graphql.type.CiJobStatus.*
@@ -109,7 +111,9 @@ fun JobsScreen(innerPaddings: PaddingValues) {
                     state = pullRefreshState,
                     backgroundColor = MaterialTheme.colorScheme.background,
                     contentColor = MaterialTheme.colorScheme.contentColorFor(backgroundColor = MaterialTheme.colorScheme.background),
-                    modifier = Modifier.align(alignment = Alignment.TopCenter)
+                    modifier = Modifier
+                        .align(alignment = Alignment.TopCenter)
+                        .padding(top = innerPaddings.calculateTopPadding())
                 )
             }
         }
@@ -121,6 +125,8 @@ private fun CiJobsScreenContent(
     innerPaddings: PaddingValues,
     jobs: LazyPagingItems<CiJob>
 ) {
+    val navController = LocalNavController.current
+
     LazyColumn(contentPadding = innerPaddings) {
         when (jobs.loadState.refresh) {
             is LoadState.Error -> {
@@ -138,7 +144,32 @@ private fun CiJobsScreenContent(
                     }
                 ) { _, item ->
                     if (item != null) {
-                        JobListItem(job = item)
+                        JobListItem(
+                            job = item,
+                            navigate = { job ->
+                                job.id?.let {
+                                    navController.navigate(
+                                        route = Screen.JobScreen.route
+                                            .replace(
+                                                "{${Screen.ARG_JOB_ID}}",
+                                                it.replace("#", "")
+                                            )
+                                            .replace(
+                                                "{${Screen.ARG_RETRYABLE}}",
+                                                job.retryable.toString()
+                                            )
+                                            .replace(
+                                                "{${Screen.ARG_CANCELABLE}}",
+                                                job.cancelable.toString()
+                                            )
+                                            .replace(
+                                                "{${Screen.ARG_TRIGGERED}}",
+                                                job.triggered.toString()
+                                            )
+                                    )
+                                }
+                            }
+                        )
                     }
                 }
             }
@@ -158,5 +189,8 @@ private fun JobListItemPreview(
     )
     job: CiJob
 ) {
-    JobListItem(job = job)
+    JobListItem(
+        job = job,
+        navigate = {}
+    )
 }

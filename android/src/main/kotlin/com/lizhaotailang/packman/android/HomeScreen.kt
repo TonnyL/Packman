@@ -26,9 +26,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.lizhaotailang.packman.android.debug.DebugScreen
+import com.lizhaotailang.packman.android.job.JobScreen
 import com.lizhaotailang.packman.android.jobs.JobsScreen
 import com.lizhaotailang.packman.android.new.NewJobScreen
 import com.lizhaotailang.packman.common.R
@@ -145,6 +148,38 @@ fun MainNavHost(startDestination: Screen) {
         composable(route = Screen.DebugScreen.route) {
             currentRoute.value = Screen.DebugScreen.route
             DebugScreen()
+        }
+        composable(
+            route = Screen.JobScreen.route,
+            arguments = listOf(
+                navArgument(name = Screen.ARG_JOB_ID) {
+                    type = NavType.StringType
+                },
+                navArgument(name = Screen.ARG_CANCELABLE) {
+                    type = NavType.BoolType
+                    defaultValue = false
+                },
+                navArgument(name = Screen.ARG_RETRYABLE) {
+                    type = NavType.BoolType
+                    defaultValue = false
+                },
+                navArgument(name = Screen.ARG_TRIGGERED) {
+                    type = NavType.BoolType
+                    defaultValue = false
+                }
+            )
+        ) { backStackEntry ->
+            currentRoute.value = Screen.JobScreen.route
+            JobScreen(
+                jobId = backStackEntry.arguments?.getString(Screen.ARG_JOB_ID)
+                    ?: return@composable,
+                cancelable = backStackEntry.arguments?.getBoolean(Screen.ARG_CANCELABLE)
+                    ?: false,
+                retryable = backStackEntry.arguments?.getBoolean(Screen.ARG_RETRYABLE)
+                    ?: false,
+                triggered = backStackEntry.arguments?.getBoolean(Screen.ARG_TRIGGERED)
+                    ?: false
+            )
         }
     }
 }
