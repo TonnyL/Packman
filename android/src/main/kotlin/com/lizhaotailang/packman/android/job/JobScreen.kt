@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.lizhaotailang.packman.android.ErrorScreen
 import com.lizhaotailang.packman.android.LocalNavController
 import com.lizhaotailang.packman.android.PackmanTopBar
 import com.lizhaotailang.packman.common.data.PipelineStatus
@@ -280,7 +281,7 @@ private fun JobScreenContent(
             }
         }
         Status.FAILED -> {
-
+            ErrorScreen(action = viewModel::fetchJobInfo)
         }
         Status.LOADING -> {
 
