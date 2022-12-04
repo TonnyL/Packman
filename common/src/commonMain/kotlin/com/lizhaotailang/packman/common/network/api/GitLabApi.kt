@@ -44,4 +44,16 @@ class GitLabApi {
         }
     }
 
+    suspend fun getAllPipelineSchedules(): HttpResponse {
+        return KtorClient.httpClient.get(url = URLBuilder(urlString = "${CommonBuildConfig.REST_SERVER_URL}/projects/${CommonBuildConfig.PROJECT_ID}/pipeline_schedules").build()) {
+            header("PRIVATE-TOKEN", CommonBuildConfig.ACCESS_TOKEN)
+        }
+    }
+
+    suspend fun getASinglePipelineSchedule(pipelineScheduleId: Int): HttpResponse {
+        return KtorClient.httpClient.get(url = URLBuilder(urlString = "${CommonBuildConfig.REST_SERVER_URL}/projects/${CommonBuildConfig.PROJECT_ID}/pipeline_schedules/$pipelineScheduleId").build()) {
+            header("PRIVATE-TOKEN", CommonBuildConfig.ACCESS_TOKEN)
+        }
+    }
+
 }
