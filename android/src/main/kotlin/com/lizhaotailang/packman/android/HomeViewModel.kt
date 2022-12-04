@@ -9,6 +9,7 @@ import androidx.paging.cachedIn
 import com.lizhaotailang.packman.android.jobs.JobsDataSource
 import com.lizhaotailang.packman.common.data.History
 import com.lizhaotailang.packman.common.data.Pipeline
+import com.lizhaotailang.packman.common.data.PipelineScheduleListItem
 import com.lizhaotailang.packman.common.data.toRealmInstant
 import com.lizhaotailang.packman.common.database.PackmanDatabase
 import com.lizhaotailang.packman.common.database.realmFilePath
@@ -50,6 +51,14 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
                 )
             }
         ).flow.cachedIn(scope = viewModelScope)
+    }
+
+    private val _allPipelineSchedulesFlow =
+        MutableStateFlow<Resource<List<PipelineScheduleListItem>>>(value = Resource.loading(data = null))
+    val allPipelineSchedulesFlow: StateFlow<Resource<List<PipelineScheduleListItem>>> get() = _allPipelineSchedulesFlow
+
+    init {
+        getAllPipelineSchedules(init = true)
     }
 
     fun showSnackbarMessage(newMessage: String) {
@@ -113,6 +122,29 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
                     delete(h)
                 }
             } catch (e: Exception) {
+                Log.e(TAG, null, e)
+            }
+        }
+    }
+
+    fun getAllPipelineSchedules(init: Boolean = false) {
+        if (_allPipelineSchedulesFlow.value.status == Status.LOADING
+            && !init
+        ) {
+            return
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _allPipelineSchedulesFlow.emit(value = Resource.loading(data = null))
+
+                val pipelineSchedules = gitLabApi.getAllPipelineSchedules()
+                    .body<List<PipelineScheduleListItem>>()
+
+                _allPipelineSchedulesFlow.emit(value = Resource.success(data = pipelineSchedules))
+            } catch (e: Exception) {
+                _allPipelineSchedulesFlow.emit(value = Resource.failed(exception = e, data = null))
+
                 Log.e(TAG, null, e)
             }
         }
