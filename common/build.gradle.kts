@@ -120,8 +120,8 @@ buildkonfig {
         buildConfigField(STRING, "ACCESS_TOKEN", "${localProperties.getProperty("ACCESS_TOKEN")}")
         buildConfigField(
             STRING,
-            "PROJECT_ACCESS_TOKEN",
-            "${localProperties.getProperty("PROJECT_ACCESS_TOKEN")}"
+            "TRIGGER_PIPELINE_ACCESS_TOKEN",
+            "${localProperties.getProperty("TRIGGER_PIPELINE_ACCESS_TOKEN")}"
         )
     }
 }

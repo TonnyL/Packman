@@ -19,7 +19,7 @@ class GitLabApi {
     ): HttpResponse {
         return KtorClient.httpClient.post(url = URLBuilder(urlString = "$BASE_URL/projects/12/trigger/pipeline").build()) {
             formData {
-                parameter("token", CommonBuildConfig.PROJECT_ACCESS_TOKEN)
+                parameter("token", CommonBuildConfig.TRIGGER_PIPELINE_ACCESS_TOKEN)
                 parameter("ref", branch)
                 parameter("variables[BUILD_VARIANT]", variants.joinToString())
             }
