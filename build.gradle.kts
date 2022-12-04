@@ -14,5 +14,6 @@ buildscript {
         classpath(libs.kotlin.gradlePlugin)
         classpath(libs.compose.multiplatformPlugin)
         classpath(libs.kotlin.serialization.gradlePlugin)
+        classpath(libs.build.konfig)
     }
 }
