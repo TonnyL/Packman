@@ -5,9 +5,10 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.DismissDirection
@@ -66,82 +67,86 @@ fun NewJobScreen(innerPaddings: PaddingValues) {
 
     val histories by viewModel.database.historiesFlow.collectAsStateWithLifecycle()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues = innerPaddings)
-    ) {
-        NewJobConfigurationItem(
-            branchState = branchState,
-            selectedVariants = selectedVariants,
-            requestState = requestState,
-            onRunClick = { branch, variants ->
-                viewModel.triggerNewPipeline(
-                    branch = branch,
-                    variants = variants
+    LazyColumn {
+        item(key = "__top_padding") {
+            Spacer(modifier = Modifier.height(height = innerPaddings.calculateTopPadding()))
+        }
+
+        item(key = "__new_job__") {
+            NewJobConfigurationItem(
+                branchState = branchState,
+                selectedVariants = selectedVariants,
+                requestState = requestState,
+                onRunClick = { branch, variants ->
+                    viewModel.triggerNewPipeline(
+                        branch = branch,
+                        variants = variants
+                    )
+
+                    keyboardController?.hide()
+                }
+            )
+        }
+
+        if (histories.isNotEmpty()) {
+            item(key = "__histories__") {
+                Text(
+                    text = "Histories",
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 16.dp)
                 )
-
-                keyboardController?.hide()
             }
-        )
+        }
 
-        LazyColumn {
-            if (histories.isNotEmpty()) {
-                item(key = "__histories__") {
-                    Text(
-                        text = "Histories",
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .padding(bottom = 16.dp)
+        items(
+            count = histories.size,
+            key = {
+                histories[it]._id.toHexString()
+            }
+        ) { index ->
+            val history = histories.getOrNull(index)
+            val dismissState = rememberDismissState(
+                confirmStateChange = { dismissValue ->
+                    if (dismissValue == DismissValue.DismissedToEnd
+                        || dismissValue == DismissValue.DismissedToStart
+                    ) {
+                        history?.let {
+                            viewModel.deleteHistory(it)
+                        }
+
+                        true
+                    } else {
+                        false
+                    }
+                }
+            )
+            SwipeToDismiss(
+                state = dismissState,
+                background = {
+                    HistoryBackground(dismissState = dismissState)
+                }
+            ) {
+                if (history != null) {
+                    HistoryItem(
+                        history = history,
+                        onClick = {
+                            branchState.value = history.branch
+                            selectedVariants.clear()
+                            selectedVariants.addAll(
+                                elements = history.variants.map {
+                                    Variant.values()[it]
+                                }
+                            )
+                        }
                     )
                 }
             }
+        }
 
-            items(
-                count = histories.size,
-                key = {
-                    histories[it]._id.toHexString()
-                }
-            ) { index ->
-                val history = histories.getOrNull(index)
-                val dismissState = rememberDismissState(
-                    confirmStateChange = { dismissValue ->
-                        if (dismissValue == DismissValue.DismissedToEnd
-                            || dismissValue == DismissValue.DismissedToStart
-                        ) {
-                            history?.let {
-                                viewModel.deleteHistory(it)
-                            }
-
-                            true
-                        } else {
-                            false
-                        }
-                    }
-                )
-                SwipeToDismiss(
-                    state = dismissState,
-                    background = {
-                        HistoryBackground(dismissState = dismissState)
-                    }
-                ) {
-                    if (history != null) {
-                        HistoryItem(
-                            history = history,
-                            onClick = {
-                                branchState.value = history.branch
-                                selectedVariants.clear()
-                                selectedVariants.addAll(
-                                    elements = history.variants.map {
-                                        Variant.values()[it]
-                                    }
-                                )
-                            }
-                        )
-                    }
-                }
-            }
+        item(key = "__bottom_padding") {
+            Spacer(modifier = Modifier.height(height = innerPaddings.calculateBottomPadding()))
         }
     }
 }
