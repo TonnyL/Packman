@@ -17,3 +17,7 @@ buildscript {
         classpath(libs.build.konfig)
     }
 }
+
+allprojects {
+    apply(plugin = "com.lizhaotailang.packman.spotless")
+}
