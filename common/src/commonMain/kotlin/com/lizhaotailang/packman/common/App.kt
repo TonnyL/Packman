@@ -10,7 +10,7 @@ fun App() {
     val platformName = getPlatformName()
 
     Button(onClick = {
-        text = "Hello, ${platformName}"
+        text = "Hello, $platformName"
     }) {
         Text(text)
     }

@@ -8,7 +8,6 @@ plugins {
 group = "com.lizhaotailang.packman"
 version = "1.0-SNAPSHOT"
 
-
 kotlin {
     jvm {
         compilations.all {
