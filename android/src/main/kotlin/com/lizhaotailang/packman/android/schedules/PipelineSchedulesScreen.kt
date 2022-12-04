@@ -25,8 +25,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lizhaotailang.packman.android.ErrorScreen
 import com.lizhaotailang.packman.android.HomeViewModel
+import com.lizhaotailang.packman.android.LocalNavController
 import com.lizhaotailang.packman.common.data.PipelineScheduleListItem
 import com.lizhaotailang.packman.common.network.Status
+import com.lizhaotailang.packman.common.ui.Screen
 import com.lizhaotailang.packman.common.ui.schedules.PipelineScheduleItem
 
 @OptIn(
@@ -87,6 +89,8 @@ private fun PipelineSchedulesScreenContent(
     innerPaddings: PaddingValues,
     schedules: List<PipelineScheduleListItem>
 ) {
+    val navController = LocalNavController.current
+
     LazyColumn {
         item(key = "__top_padding__") {
             Spacer(modifier = Modifier.height(height = innerPaddings.calculateTopPadding()))
@@ -101,7 +105,13 @@ private fun PipelineSchedulesScreenContent(
             PipelineScheduleItem(
                 item = it,
                 onClick = {
-
+                    navController.navigate(
+                        route = Screen.ScheduleScreen.route
+                            .replace(
+                                "{${Screen.ARG_PIPELINE_SCHEDULE_ID}}",
+                                it.id.toString()
+                            )
+                    )
                 }
             )
         }

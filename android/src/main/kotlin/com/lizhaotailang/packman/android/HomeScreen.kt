@@ -41,6 +41,7 @@ import com.lizhaotailang.packman.android.debug.DebugScreen
 import com.lizhaotailang.packman.android.job.JobScreen
 import com.lizhaotailang.packman.android.jobs.JobsScreen
 import com.lizhaotailang.packman.android.new.NewJobScreen
+import com.lizhaotailang.packman.android.schedule.PipelineScheduleScreen
 import com.lizhaotailang.packman.android.schedules.PipelineSchedulesScreen
 import com.lizhaotailang.packman.common.ui.MainScreenNavigationItem
 import com.lizhaotailang.packman.common.ui.Screen
@@ -205,6 +206,21 @@ fun MainNavHost(startDestination: Screen) {
                     ?: false,
                 triggered = backStackEntry.arguments?.getBoolean(Screen.ARG_TRIGGERED)
                     ?: false
+            )
+        }
+        composable(
+            route = Screen.ScheduleScreen.route,
+            arguments = listOf(
+                navArgument(name = Screen.ARG_PIPELINE_SCHEDULE_ID) {
+                    type = NavType.IntType
+                }
+            )
+        ) { backStackEntry ->
+            currentRoute.value = Screen.ScheduleScreen.route
+
+            PipelineScheduleScreen(
+                pipelineScheduleId = backStackEntry.arguments?.getInt(Screen.ARG_PIPELINE_SCHEDULE_ID)
+                    ?: return@composable
             )
         }
     }
