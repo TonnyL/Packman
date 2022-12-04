@@ -1,5 +1,9 @@
 package com.lizhaotailang.packman.android
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBarDefaults
+import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val packmanLightPrimary = Color(0xFF825500)
@@ -55,3 +59,8 @@ val packmanDarkOutline = Color(0xFF9C8F80)
 val packmanDarkInverseOnSurface = Color(0xFF32281A)
 val packmanDarkInverseSurface = Color(0xFFEAE1D9)
 val packmanDarkPrimaryInverse = Color(0xFF624000)
+
+@Composable
+fun barsBackground() = MaterialTheme.colorScheme.surfaceColorAtElevation(
+    elevation = NavigationBarDefaults.Elevation
+).copy(alpha = .97f)

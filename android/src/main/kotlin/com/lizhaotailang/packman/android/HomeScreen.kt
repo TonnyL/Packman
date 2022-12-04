@@ -2,8 +2,10 @@ package com.lizhaotailang.packman.android
 
 import android.app.Application
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -21,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -81,23 +84,25 @@ fun HomeScreen() {
             )
         },
         bottomBar = {
-            NavigationBar {
-                MainScreenNavigationItem.values().forEach { item ->
-                    NavigationBarItem(
-                        selected = selectedItem == item,
-                        onClick = {
-                            selectedItem = item
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = item.icon,
-                                contentDescription = item.item
-                            )
-                        },
-                        label = {
-                            Text(text = item.item)
-                        }
-                    )
+            Box(modifier = Modifier.background(color = barsBackground())) {
+                NavigationBar(containerColor = Color.Transparent) {
+                    MainScreenNavigationItem.values().forEach { item ->
+                        NavigationBarItem(
+                            selected = selectedItem == item,
+                            onClick = {
+                                selectedItem = item
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = item.icon,
+                                    contentDescription = item.item
+                                )
+                            },
+                            label = {
+                                Text(text = item.item)
+                            }
+                        )
+                    }
                 }
             }
         },
