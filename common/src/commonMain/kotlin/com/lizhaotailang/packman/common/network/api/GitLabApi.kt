@@ -44,6 +44,18 @@ class GitLabApi {
         }
     }
 
+    suspend fun getAllPipelineSchedules(): HttpResponse {
+        return KtorClient.httpClient.get(url = URLBuilder(urlString = "$BASE_URL/projects/12/pipeline_schedules").build()) {
+            header("PRIVATE-TOKEN", CommonBuildConfig.ACCESS_TOKEN)
+        }
+    }
+
+    suspend fun getASinglePipelineSchedule(pipelineScheduleId: Int): HttpResponse {
+        return KtorClient.httpClient.get(url = URLBuilder(urlString = "$BASE_URL/projects/12/pipeline_schedules/$pipelineScheduleId").build()) {
+            header("PRIVATE-TOKEN", CommonBuildConfig.ACCESS_TOKEN)
+        }
+    }
+
     companion object {
 
         private const val BASE_URL = "https://gitlab.insta360.com/api/v4"
