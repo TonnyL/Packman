@@ -1,9 +1,13 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     id("com.android.library")
     id("kotlinx-serialization")
     id("com.apollographql.apollo3").version(libs.versions.apollo)
+    id("com.codingfeline.buildkonfig")
 }
 
 group = "com.lizhaotailang.packman"
@@ -87,4 +91,25 @@ apollo {
         mapScalar("Time", "kotlinx.datetime.Instant")
         mapScalar("JobID", "kotlin.String")
     }
+}
+
+buildkonfig {
+    packageName = "com.lizhaotailang.packman.common"
+    objectName = "BuildConfig"
+    exposeObjectWithName = "CommonBuildConfig"
+
+    val localProperties = gradleLocalProperties(rootDir)
+    defaultConfigs {
+        buildConfigField(STRING, "ACCESS_TOKEN", "${localProperties.getProperty("ACCESS_TOKEN")}")
+        buildConfigField(
+            STRING,
+            "PROJECT_ACCESS_TOKEN",
+            "${localProperties.getProperty("PROJECT_ACCESS_TOKEN")}"
+        )
+    }
+}
+
+// run `generateBuildKonfig` for every build.
+tasks.build {
+    dependsOn("generateBuildKonfig")
 }

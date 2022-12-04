@@ -16,7 +16,7 @@ kotlinSerializationJson = "1.4.1"
 pagingCompose = "1.0.0-alpha17"
 material2 = "1.4.0-alpha02"
 ktor = "2.1.3"
-accompanistFlowlayout = "0.27.0"
+buildKonfig = "0.13.3"
 
 [plugins]
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -48,3 +48,4 @@ kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-pl
 spotless-gradlePlugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
 compose-multiplatformPlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
 kotlin-serialization-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
+build-konfig = { group = "com.codingfeline.buildkonfig", name = "buildkonfig-gradle-plugin", version.ref = "buildKonfig" }
