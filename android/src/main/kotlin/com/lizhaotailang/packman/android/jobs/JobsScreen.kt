@@ -3,7 +3,9 @@ package com.lizhaotailang.packman.android.jobs
 import android.app.Application
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
@@ -86,51 +88,48 @@ private fun CiJobsScreenContent(
 ) {
     val navController = LocalNavController.current
 
-    LazyColumn(contentPadding = innerPaddings) {
-        when (jobs.loadState.refresh) {
-            is LoadState.Error -> {
-                item(key = "_load_error_") {
-                }
+    LazyColumn {
+        itemsIndexed(
+            items = jobs,
+            key = { _, item ->
+                item.id ?: ""
             }
-            LoadState.Loading -> {
+        ) { index, item ->
+            if (index == 0) {
+                Spacer(modifier = Modifier.height(height = innerPaddings.calculateTopPadding()))
+            }
 
-            }
-            is LoadState.NotLoading -> {
-                itemsIndexed(
-                    items = jobs,
-                    key = { _, item ->
-                        item.id ?: ""
-                    }
-                ) { _, item ->
-                    if (item != null) {
-                        JobListItem(
-                            job = item,
-                            navigate = { job ->
-                                job.id?.let {
-                                    navController.navigate(
-                                        route = Screen.JobScreen.route
-                                            .replace(
-                                                "{${Screen.ARG_JOB_ID}}",
-                                                it.replace("#", "")
-                                            )
-                                            .replace(
-                                                "{${Screen.ARG_RETRYABLE}}",
-                                                job.retryable.toString()
-                                            )
-                                            .replace(
-                                                "{${Screen.ARG_CANCELABLE}}",
-                                                job.cancelable.toString()
-                                            )
-                                            .replace(
-                                                "{${Screen.ARG_TRIGGERED}}",
-                                                job.triggered.toString()
-                                            )
+            if (item != null) {
+                JobListItem(
+                    job = item,
+                    navigate = { job ->
+                        job.id?.let {
+                            navController.navigate(
+                                route = Screen.JobScreen.route
+                                    .replace(
+                                        "{${Screen.ARG_JOB_ID}}",
+                                        it.replace("#", "")
                                     )
-                                }
-                            }
-                        )
+                                    .replace(
+                                        "{${Screen.ARG_RETRYABLE}}",
+                                        job.retryable.toString()
+                                    )
+                                    .replace(
+                                        "{${Screen.ARG_CANCELABLE}}",
+                                        job.cancelable.toString()
+                                    )
+                                    .replace(
+                                        "{${Screen.ARG_TRIGGERED}}",
+                                        job.triggered.toString()
+                                    )
+                            )
+                        }
                     }
-                }
+                )
+            }
+
+            if (index == jobs.itemCount - 1) {
+                Spacer(modifier = Modifier.height(height = innerPaddings.calculateBottomPadding()))
             }
         }
     }
