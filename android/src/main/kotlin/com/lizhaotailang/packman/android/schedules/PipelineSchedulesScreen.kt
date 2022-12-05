@@ -91,7 +91,7 @@ private fun PipelineSchedulesScreenContent(
 ) {
     val navController = LocalNavController.current
 
-    LazyColumn {
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
         item(key = "__top_padding__") {
             Spacer(modifier = Modifier.height(height = innerPaddings.calculateTopPadding()))
         }
