@@ -24,6 +24,8 @@ import com.lizhaotailang.packman.android.ErrorScreen
 import com.lizhaotailang.packman.android.LocalNavController
 import com.lizhaotailang.packman.android.PackmanTopBar
 import com.lizhaotailang.packman.common.network.Status
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -99,9 +101,11 @@ private fun PipelineScheduleScreenContent(
                         supporting = schedule.ref
                     )
 
+                    val nextRunAt =
+                        schedule.nextRunAt.toLocalDateTime(timeZone = TimeZone.of(zoneId = schedule.cronTimezone))
                     pipelineScheduleInfoItem(
                         headline = "Next run",
-                        supporting = schedule.nextRunAt.toString()
+                        supporting = nextRunAt.toString()
                     )
 
                     pipelineScheduleInfoItem(
