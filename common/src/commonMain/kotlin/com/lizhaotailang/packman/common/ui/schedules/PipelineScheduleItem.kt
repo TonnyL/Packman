@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import com.lizhaotailang.packman.common.data.PipelineScheduleListItem
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,8 +23,10 @@ fun PipelineScheduleItem(
             Text(text = "#${item.id} ${item.description}")
         },
         supportingText = {
+            val nextRunAt =
+                item.nextRunAt.toLocalDateTime(timeZone = TimeZone.of(zoneId = item.cronTimezone))
             Text(
-                text = "${item.ref}\nNext run at ${item.nextRunAt}",
+                text = "${item.ref}\nNext run at $nextRunAt",
                 style = MaterialTheme.typography.bodyMedium
             )
         },
