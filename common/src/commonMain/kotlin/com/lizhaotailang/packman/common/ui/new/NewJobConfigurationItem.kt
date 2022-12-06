@@ -29,6 +29,8 @@ import com.lizhaotailang.packman.common.data.toInstant
 import com.lizhaotailang.packman.common.network.Resource
 import com.lizhaotailang.packman.common.network.Status
 import com.lizhaotailang.packman.common.ui.FlowRow
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -114,7 +116,9 @@ fun HistoryItem(
         },
         supportingText = {
             val variants = history.variants.map { Variant.values()[it] }.joinToString()
-            Text(text = "${variants}\n${history.startedAt.toInstant()}")
+            val startedAt = history.startedAt.toInstant()
+                .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
+            Text(text = "${variants}\n$startedAt")
         },
         modifier = Modifier
             .clip(shape = MaterialTheme.shapes.medium)
