@@ -47,6 +47,8 @@ import com.lizhaotailang.packman.android.LocalNavController
 import com.lizhaotailang.packman.android.PackmanTopBar
 import com.lizhaotailang.packman.common.data.PipelineStatus
 import com.lizhaotailang.packman.common.network.Status
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -187,14 +189,16 @@ private fun JobScreenContent(
                     jobResource.data?.createdAt?.let { createdAt ->
                         jobInfoItem(
                             headline = "Created at",
-                            supporting = createdAt.toString()
+                            supporting = createdAt.toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
+                                .toString()
                         )
                     }
 
                     jobResource.data?.startedAt?.let { startedAt ->
                         jobInfoItem(
                             headline = "Started at",
-                            supporting = startedAt.toString()
+                            supporting = startedAt.toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
+                                .toString()
                         )
                     }
                     jobResource.data?.status?.let { status ->

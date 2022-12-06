@@ -46,7 +46,7 @@ fun JobListItem(
             } ?: ""
 
             val username = job.pipeline?.pipeline?.user?.userCore?.username ?: "ghost"
-            val created = job.createdAt.toLocalDateTime(TimeZone.of("Asia/Shanghai"))
+            val created = job.createdAt.toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
             Text(
                 text = "${job.name} by ${username}\n${created}$duration",
                 maxLines = 2,
