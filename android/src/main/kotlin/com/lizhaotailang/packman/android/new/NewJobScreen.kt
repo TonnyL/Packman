@@ -34,7 +34,6 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lizhaotailang.packman.android.HomeViewModel
@@ -43,7 +42,6 @@ import com.lizhaotailang.packman.common.ui.new.NewJobConfigurationItem
 import com.lizhaotailang.packman.common.ui.new.Variant
 
 @OptIn(
-    ExperimentalLifecycleComposeApi::class,
     ExperimentalComposeUiApi::class,
     ExperimentalMaterialApi::class
 )

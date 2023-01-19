@@ -39,7 +39,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lizhaotailang.packman.android.ErrorScreen
@@ -50,7 +49,7 @@ import com.lizhaotailang.packman.common.network.Status
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JobScreen(
     jobId: String,
@@ -129,10 +128,7 @@ fun JobScreen(
     }
 }
 
-@OptIn(
-    ExperimentalLifecycleComposeApi::class,
-    ExperimentalMaterial3Api::class
-)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun JobScreenContent(
     paddingValues: PaddingValues,

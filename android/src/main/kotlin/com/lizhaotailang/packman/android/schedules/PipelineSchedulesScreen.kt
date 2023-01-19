@@ -20,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lizhaotailang.packman.android.ErrorScreen
@@ -31,10 +30,7 @@ import com.lizhaotailang.packman.common.network.Status
 import com.lizhaotailang.packman.common.ui.Screen
 import com.lizhaotailang.packman.common.ui.schedules.PipelineScheduleItem
 
-@OptIn(
-    ExperimentalLifecycleComposeApi::class,
-    ExperimentalMaterialApi::class
-)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PipelineSchedulesScreen(innerPaddings: PaddingValues) {
     val context = LocalContext.current

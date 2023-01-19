@@ -27,8 +27,8 @@ kotlin {
             dependencies {
                 api(compose.runtime)
                 api(compose.foundation)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                api(compose.material3)
+                api(libs.androidx.material.compose)
+                api(libs.androidx.material.compose3)
                 api(compose.material)
                 api(compose.preview)
 
@@ -92,6 +92,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    namespace = "com.lizhaotailang.packman.common"
 }
 
 apollo {
