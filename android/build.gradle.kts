@@ -63,6 +63,7 @@ android {
             isMinifyEnabled = false
         }
     }
+    namespace = "com.lizhaotailang.packman.android"
 }
 
 dependencies {
@@ -70,7 +71,6 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.paging.compose)
-    implementation(libs.androidx.material.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
