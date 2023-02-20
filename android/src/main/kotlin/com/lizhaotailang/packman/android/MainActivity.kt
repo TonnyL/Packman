@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
+import com.lizhaotailang.packman.common.ui.LocalNavController
+import com.lizhaotailang.packman.common.ui.MainNavHost
 import com.lizhaotailang.packman.common.ui.Screen
 
 class MainActivity : AppCompatActivity() {

@@ -4,6 +4,7 @@ import org.jetbrains.compose.ExperimentalComposeLibrary
 
 plugins {
     kotlin("multiplatform")
+    kotlin("native.cocoapods")
     id("org.jetbrains.compose")
     id("com.android.library")
     id("kotlinx-serialization")
@@ -17,9 +18,26 @@ version = "1.0-SNAPSHOT"
 
 kotlin {
     android()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    cocoapods {
+        summary = "Shared code for the sample"
+        homepage = "https://github.com/TonnyL/Packman"
+        ios.deploymentTarget = "16.4"
+        podfile = project.file("../iOS/Podfile")
+        framework {
+            baseName = "common"
+            isStatic = true
+        }
+        extraSpecAttributes["resources"] =
+            "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
+    }
+
     jvm("desktop") {
         compilations.all {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "17"
         }
     }
     sourceSets {
@@ -27,10 +45,10 @@ kotlin {
             dependencies {
                 api(compose.runtime)
                 api(compose.foundation)
-                api(libs.androidx.material.compose)
-                api(libs.androidx.material.compose3)
                 api(compose.material)
-                api(compose.preview)
+                @OptIn(ExperimentalComposeLibrary::class)
+                api(compose.material3)
+                api(libs.components.resources)
 
                 api(libs.apollo.runtime)
                 api(libs.apollo.adapters)
@@ -45,39 +63,39 @@ kotlin {
                 api(libs.realm)
             }
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
+
         val androidMain by getting {
             dependencies {
-                api(compose.runtime)
-                api(compose.foundation)
-                @OptIn(ExperimentalComposeLibrary::class)
-                api(compose.material3)
+                api(libs.ktor.cio)
                 api(compose.preview)
 
-                api(libs.ktor.cio)
-            }
-        }
-        val androidTest by getting {
-            dependencies {
-                implementation(libs.junit4)
+                api(libs.androidx.paging.compose)
+                api(libs.androidx.lifecycle.runtime.compose)
+                api(libs.androidx.lifecycle.viewmodel.compose)
+                api(libs.androidx.navigation.compose)
+                api(libs.androidx.lifecycle.viewmodel.ktx)
+                api(libs.androidx.activity.compose)
             }
         }
         val desktopMain by getting {
             dependencies {
-                api(compose.runtime)
-                api(compose.foundation)
-                @OptIn(ExperimentalComposeLibrary::class)
-                api(compose.material3)
-                api(compose.preview)
-
                 api(libs.ktor.cio)
             }
         }
-        val desktopTest by getting
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+        val iosMain by creating {
+            dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
+
+            dependencies {
+                api(libs.ktor.darwin)
+                api(libs.ktor.ios)
+            }
+        }
     }
 }
 

@@ -1,0 +1,5 @@
+target 'iOS' do
+  use_frameworks!
+  platform :ios, '16.4'
+  pod 'common', :path => '../common'
+end
