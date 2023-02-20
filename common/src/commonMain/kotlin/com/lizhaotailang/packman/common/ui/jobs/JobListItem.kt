@@ -28,7 +28,7 @@ import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun JobListItem(
+internal fun JobListItem(
     job: CiJob,
     navigate: (CiJob) -> Unit
 ) {
@@ -42,7 +42,7 @@ fun JobListItem(
         },
         supportingText = {
             val duration = job.duration?.let {
-                String.format(" • %02d:%02d", (it % 3600) / 60, (it % 60))
+                " • ${(it % 3600) / 60}:${it % 60}"
             } ?: ""
 
             val username = job.pipeline?.pipeline?.user?.userCore?.username ?: "ghost"
@@ -130,7 +130,7 @@ private val CiJob.color: Color
     }
 
 @Composable
-expect fun CiJob.statusIcon(): Painter
+internal expect fun CiJob.statusIcon(): Painter
 
 @Composable
-expect fun CiJob.controllerIcon(): Painter
+internal expect fun CiJob.controllerIcon(): Painter

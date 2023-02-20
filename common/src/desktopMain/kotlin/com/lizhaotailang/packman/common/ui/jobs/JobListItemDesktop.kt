@@ -7,7 +7,7 @@ import com.lizhaotailang.packman.graphql.fragment.CiJob
 import com.lizhaotailang.packman.graphql.type.CiJobStatus
 
 @Composable
-actual fun CiJob.statusIcon(): Painter {
+internal actual fun CiJob.statusIcon(): Painter {
     return painterResource(
         resourcePath = when (status) {
             CiJobStatus.CANCELED -> {
@@ -54,6 +54,6 @@ actual fun CiJob.statusIcon(): Painter {
 }
 
 @Composable
-actual fun CiJob.controllerIcon(): Painter {
+internal actual fun CiJob.controllerIcon(): Painter {
     return painterResource(resourcePath = "")
 }

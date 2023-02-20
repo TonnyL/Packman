@@ -13,5 +13,17 @@ out/
 ### VS Code ###
 .vscode/
 
+### Fleet
+.fleet/
+
 ### Mac OS ###
 .DS_Store
+
+### iOS
+common/common.podspec
+.cxx
+iOS/Podfile.lock
+iOS/Pods/*
+iOS/iOS.xcworkspace/*
+iOS/iOS.xcodeproj/*
+!iOS/iOS.xcodeproj/project.pbxproj
