@@ -14,7 +14,7 @@ import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PipelineScheduleItem(
+internal fun PipelineScheduleItem(
     item: PipelineScheduleListItem,
     onClick: (PipelineScheduleListItem) -> Unit
 ) {

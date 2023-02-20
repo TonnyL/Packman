@@ -34,7 +34,7 @@ import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewJobConfigurationItem(
+internal fun NewJobConfigurationItem(
     branchState: MutableState<String>,
     selectedVariants: SnapshotStateList<Variant>,
     requestState: State<Resource<Pipeline>?>,
@@ -106,7 +106,7 @@ fun NewJobConfigurationItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HistoryItem(
+internal fun HistoryItem(
     history: History,
     onClick: (History) -> Unit
 ) {
