@@ -6,11 +6,11 @@ import androidx.paging.PagingState
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Optional
 import com.lizhaotailang.packman.common.CommonBuildConfig
+import com.lizhaotailang.packman.common.IOScheduler
 import com.lizhaotailang.packman.common.ext.checkedEndCursor
 import com.lizhaotailang.packman.common.ext.checkedStartCursor
 import com.lizhaotailang.packman.graphql.AllJobsQuery
 import com.lizhaotailang.packman.graphql.fragment.CiJob
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class JobsDataSource(
@@ -24,7 +24,7 @@ class JobsDataSource(
     override suspend fun load(params: LoadParams<String>): LoadResult<String, CiJob> {
         val list = mutableListOf<CiJob>()
 
-        return withContext(Dispatchers.IO) {
+        return withContext(IOScheduler) {
             try {
                 val project = apolloClient.query(
                     query = AllJobsQuery(

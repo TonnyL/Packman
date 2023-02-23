@@ -104,7 +104,7 @@ private fun CiJobsScreenContent(
                     navigate = { job ->
                         job.id?.let {
                             navController.navigate(
-                                route = Screen.JobScreen.route
+                                route = Screen.JobScreen.ROUTE
                                     .replace(
                                         "{${Screen.ARG_JOB_ID}}",
                                         it.replace("#", "")

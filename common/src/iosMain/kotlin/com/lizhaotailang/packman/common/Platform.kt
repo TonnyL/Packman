@@ -1,5 +1,5 @@
 package com.lizhaotailang.packman.common
 
-actual fun getPlatformName(): String {
-    return "iOS"
-}
+import kotlinx.coroutines.Dispatchers
+
+actual val IOScheduler = Dispatchers.Default

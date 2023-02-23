@@ -6,10 +6,29 @@ sealed class Screen(val route: String) {
 
     object DebugScreen : Screen(route = "debug")
 
-    object JobScreen :
-        Screen(route = "job/{$ARG_JOB_ID}?$ARG_CANCELABLE={$ARG_CANCELABLE}&$ARG_RETRYABLE={$ARG_RETRYABLE}&$ARG_TRIGGERED={$ARG_TRIGGERED}")
+    data class JobScreen(
+        val jobId: String,
+        val cancelable: Boolean,
+        val retryable: Boolean,
+        val triggered: Boolean
+    ) : Screen(route = ROUTE) {
 
-    object ScheduleScreen : Screen(route = "schedule/{$ARG_PIPELINE_SCHEDULE_ID}")
+        companion object {
+            const val ROUTE =
+                "job/{$ARG_JOB_ID}?$ARG_CANCELABLE={$ARG_CANCELABLE}&$ARG_RETRYABLE={$ARG_RETRYABLE}&$ARG_TRIGGERED={$ARG_TRIGGERED}"
+        }
+
+    }
+
+    data class ScheduleScreen(
+        val pipelineScheduleId: Int
+    ) : Screen(route = ROUTE) {
+
+        companion object {
+            const val ROUTE = "szchedule/{$ARG_PIPELINE_SCHEDULE_ID}"
+        }
+
+    }
 
     companion object {
 

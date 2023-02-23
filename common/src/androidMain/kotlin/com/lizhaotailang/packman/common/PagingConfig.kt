@@ -1,9 +1,8 @@
 package com.lizhaotailang.packman.common
 
 import androidx.paging.PagingConfig
-
-private const val PER_PAGE = 16
-private const val MAX_SIZE_OF_PAGED_LIST = 1024
+import com.lizhaotailang.packman.common.ui.MAX_SIZE_OF_PAGED_LIST
+import com.lizhaotailang.packman.common.ui.PER_PAGE
 
 val defaultPagingConfig = PagingConfig(
     pageSize = PER_PAGE,

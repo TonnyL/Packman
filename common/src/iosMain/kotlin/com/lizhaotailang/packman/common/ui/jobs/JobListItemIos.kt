@@ -13,43 +13,43 @@ internal actual fun CiJob.statusIcon(): Painter {
         image = imageResource(
             id = when (status) {
                 CiJobStatus.CANCELED -> {
-                    "status_canceled.svg"
+                    "status_canceled"
                 }
                 CiJobStatus.CREATED -> {
-                    "status_created.svg"
+                    "status_created"
                 }
                 CiJobStatus.FAILED -> {
                     if (allowFailure) {
-                        "status_warning.svg"
+                        "status_warning"
                     } else {
-                        "status_failed.svg"
+                        "status_failed"
                     }
                 }
                 CiJobStatus.MANUAL -> {
-                    "status_manual.svg"
+                    "status_manual"
                 }
                 CiJobStatus.PENDING -> {
-                    "status_pending.svg"
+                    "status_pending"
                 }
                 CiJobStatus.PREPARING,
                 CiJobStatus.WAITING_FOR_RESOURCE -> {
-                    "status_preparing.svg"
+                    "status_preparing"
                 }
                 CiJobStatus.RUNNING -> {
-                    "status_running.svg"
+                    "status_running"
                 }
                 CiJobStatus.SCHEDULED -> {
-                    "status_scheduled.svg"
+                    "status_scheduled"
                 }
                 CiJobStatus.SKIPPED -> {
-                    "status_skipped.svg"
+                    "status_skipped"
                 }
                 CiJobStatus.SUCCESS -> {
-                    "status_success.svg"
+                    "status_success"
                 }
                 CiJobStatus.UNKNOWN__,
                 null -> {
-                    "status_notfound.svg"
+                    "status_notfound"
                 }
             }
         )
@@ -58,5 +58,5 @@ internal actual fun CiJob.statusIcon(): Painter {
 
 @Composable
 internal actual fun CiJob.controllerIcon(): Painter {
-    return BitmapPainter(image = imageResource(id = ""))
+    return BitmapPainter(image = imageResource(id = "stadia_controller"))
 }

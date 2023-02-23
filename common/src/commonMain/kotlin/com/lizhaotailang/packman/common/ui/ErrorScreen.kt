@@ -9,19 +9,19 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.lizhaotailang.packman.common.R
 
 @Composable
-fun ErrorScreen(action: () -> Unit) {
+internal fun ErrorScreen(action: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -30,13 +30,15 @@ fun ErrorScreen(action: () -> Unit) {
             .padding(all = 64.dp)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.something_wrong),
+            painter = ErrorScreenImage(),
             contentDescription = null,
-            modifier = Modifier.clickable(
-                onClick = action,
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            )
+            modifier = Modifier
+                .size(size = 200.dp)
+                .clickable(
+                    onClick = action,
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                )
         )
         Spacer(modifier = Modifier.height(height = 16.dp))
         TextButton(onClick = action) {
@@ -47,3 +49,6 @@ fun ErrorScreen(action: () -> Unit) {
         }
     }
 }
+
+@Composable
+internal expect fun ErrorScreenImage(): Painter

@@ -2,17 +2,9 @@ package com.lizhaotailang.packman.common.ui
 
 import android.app.Application
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.List
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -21,14 +13,10 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -51,7 +39,7 @@ import com.lizhaotailang.packman.common.ui.schedules.PipelineSchedulesScreen
 )
 @Composable
 fun HomeScreen() {
-    var selectedItem by remember { mutableStateOf(MainScreenNavigationItem.Jobs) }
+    val selectedItemState = remember { mutableStateOf(MainScreenNavigationItem.Jobs) }
 
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
@@ -86,46 +74,11 @@ fun HomeScreen() {
             )
         },
         bottomBar = {
-            Box(modifier = Modifier.background(color = barsBackground())) {
-                NavigationBar(containerColor = Color.Transparent) {
-                    MainScreenNavigationItem.values().forEach { item ->
-                        NavigationBarItem(
-                            selected = selectedItem == item,
-                            onClick = {
-                                selectedItem = item
-                            },
-                            icon = {
-                                when (item) {
-                                    MainScreenNavigationItem.Jobs,
-                                    MainScreenNavigationItem.New -> {
-                                        Icon(
-                                            imageVector = if (item == MainScreenNavigationItem.Jobs) {
-                                                Icons.Outlined.List
-                                            } else {
-                                                Icons.Outlined.Edit
-                                            },
-                                            contentDescription = item.item
-                                        )
-                                    }
-                                    MainScreenNavigationItem.Schedules -> {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.schedules),
-                                            contentDescription = null
-                                        )
-                                    }
-                                }
-                            },
-                            label = {
-                                Text(text = item.item)
-                            }
-                        )
-                    }
-                }
-            }
+            HomeBottomBar(selectedItemState = selectedItemState)
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         content = { innerPadding ->
-            when (selectedItem) {
+            when (selectedItemState.value) {
                 MainScreenNavigationItem.Jobs -> {
                     JobsScreen(innerPaddings = innerPadding)
                 }
@@ -175,7 +128,7 @@ fun MainNavHost(startDestination: Screen) {
             DebugScreen()
         }
         composable(
-            route = Screen.JobScreen.route,
+            route = Screen.JobScreen.ROUTE,
             arguments = listOf(
                 navArgument(name = Screen.ARG_JOB_ID) {
                     type = NavType.StringType
@@ -194,7 +147,7 @@ fun MainNavHost(startDestination: Screen) {
                 }
             )
         ) { backStackEntry ->
-            currentRoute.value = Screen.JobScreen.route
+            currentRoute.value = Screen.JobScreen.ROUTE
             JobScreen(
                 jobId = backStackEntry.arguments?.getString(Screen.ARG_JOB_ID)
                     ?: return@composable,
@@ -207,14 +160,14 @@ fun MainNavHost(startDestination: Screen) {
             )
         }
         composable(
-            route = Screen.ScheduleScreen.route,
+            route = Screen.ScheduleScreen.ROUTE,
             arguments = listOf(
                 navArgument(name = Screen.ARG_PIPELINE_SCHEDULE_ID) {
                     type = NavType.IntType
                 }
             )
         ) { backStackEntry ->
-            currentRoute.value = Screen.ScheduleScreen.route
+            currentRoute.value = Screen.ScheduleScreen.ROUTE
 
             PipelineScheduleScreen(
                 pipelineScheduleId = backStackEntry.arguments?.getInt(Screen.ARG_PIPELINE_SCHEDULE_ID)
