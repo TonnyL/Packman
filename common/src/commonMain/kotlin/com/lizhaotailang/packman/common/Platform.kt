@@ -1,3 +1,5 @@
 package com.lizhaotailang.packman.common
 
-expect fun getPlatformName(): String
+import kotlinx.coroutines.CoroutineDispatcher
+
+expect val IOScheduler: CoroutineDispatcher
