@@ -16,7 +16,7 @@ kotlinDateTime = "0.4.0"
 pagingCompose = "1.0.0-alpha17"
 ktor = "2.2.2"
 buildKonfig = "0.13.3"
-accompanist = "0.29.0-alpha"
+accompanist = "0.29.1-alpha"
 mdc = "1.9.0-alpha01"
 realm = "1.5.2"
 
