@@ -16,6 +16,8 @@ kotlin {
         withJava()
     }
     sourceSets {
+        enableK2Compiler()
+
         val jvmMain by getting {
             dependencies {
                 implementation(project(":common"))

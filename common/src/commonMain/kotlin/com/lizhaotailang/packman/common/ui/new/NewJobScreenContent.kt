@@ -39,7 +39,8 @@ import com.lizhaotailang.packman.common.network.Resource
 
 @OptIn(
     ExperimentalComposeUiApi::class,
-    ExperimentalMaterialApi::class
+    ExperimentalMaterialApi::class,
+    ExperimentalStdlibApi::class
 )
 @Composable
 internal fun NewJobScreenContent(
@@ -120,7 +121,7 @@ internal fun NewJobScreenContent(
                             selectedVariants.clear()
                             selectedVariants.addAll(
                                 elements = history.variants.map {
-                                    Variant.values()[it]
+                                    Variant.entries[it]
                                 }
                             )
                         }

@@ -17,13 +17,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalStdlibApi::class)
 @Composable
 internal fun HomeBottomBar(
     selectedItemState: MutableState<MainScreenNavigationItem>
 ) {
     Box(modifier = Modifier.background(color = barsBackground())) {
         NavigationBar(containerColor = Color.Transparent) {
-            MainScreenNavigationItem.values().forEach { item ->
+            MainScreenNavigationItem.entries.forEach { item ->
                 NavigationBarItem(
                     selected = selectedItemState.value == item,
                     onClick = {

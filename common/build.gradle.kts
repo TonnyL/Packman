@@ -1,6 +1,7 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
     kotlin("multiplatform")
@@ -16,7 +17,10 @@ plugins {
 group = "com.lizhaotailang.packman"
 version = "1.0-SNAPSHOT"
 
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
+    targetHierarchy.default()
+
     android()
     iosX64()
     iosArm64()
@@ -41,6 +45,8 @@ kotlin {
         }
     }
     sourceSets {
+        enableK2Compiler()
+
         val commonMain by getting {
             dependencies {
                 api(compose.runtime)
@@ -85,7 +91,7 @@ kotlin {
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
-        val iosMain by creating {
+        val iosMain by getting {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)

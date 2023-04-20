@@ -7,8 +7,8 @@ plugins {
     kotlin("android")
 }
 
-group "com.lizhaotailang.packman"
-version "1.0-SNAPSHOT"
+group = "com.lizhaotailang.packman"
+version = "1.0-SNAPSHOT"
 
 android {
     compileSdk = Versions.compileSdk
@@ -64,6 +64,12 @@ android {
         }
     }
     namespace = "com.lizhaotailang.packman.android"
+}
+
+kotlin {
+    sourceSets {
+        enableK2Compiler()
+    }
 }
 
 dependencies {
