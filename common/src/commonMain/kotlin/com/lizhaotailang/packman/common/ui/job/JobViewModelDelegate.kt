@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalStdlibApi::class)
 class JobViewModelDelegate(
     private val scope: CoroutineScope,
     private val database: PackmanDatabase,
@@ -54,7 +55,7 @@ class JobViewModelDelegate(
 
                 _variantsFlow.emit(
                     value = history?.variants?.joinToString {
-                        Variant.values()[it].variant
+                        Variant.entries[it].variant
                     }
                 )
 

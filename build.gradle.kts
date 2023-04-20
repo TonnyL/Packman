@@ -1,5 +1,8 @@
-group "com.lizhaotailang.packman"
-version "1.0-SNAPSHOT"
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+
+group = "com.lizhaotailang.packman"
+version = "1.0-SNAPSHOT"
 
 buildscript {
     repositories {
@@ -21,4 +24,12 @@ buildscript {
 
 allprojects {
     apply(plugin = "com.lizhaotailang.packman.spotless")
+
+    tasks.withType<KotlinCompilationTask<*>>()
+        .configureEach {
+            compilerOptions {
+                languageVersion.set(KotlinVersion.KOTLIN_1_9)
+                freeCompilerArgs.add("-Xskip-prerelease-check")
+            }
+        }
 }

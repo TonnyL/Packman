@@ -32,7 +32,10 @@ import com.lizhaotailang.packman.common.ui.FlowRow
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalStdlibApi::class
+)
 @Composable
 internal fun NewJobConfigurationItem(
     branchState: MutableState<String>,
@@ -57,7 +60,7 @@ internal fun NewJobConfigurationItem(
             modifier = Modifier.padding(vertical = 16.dp)
         )
         FlowRow(modifier = Modifier.fillMaxWidth()) {
-            Variant.values().forEachIndexed { index, variant ->
+            Variant.entries.forEachIndexed { index, variant ->
                 val selected = selectedVariants.contains(variant)
 
                 @Composable
@@ -77,7 +80,7 @@ internal fun NewJobConfigurationItem(
                     )
                 }
 
-                if (index != Variant.values().size - 1) {
+                if (index != Variant.entries.size - 1) {
                     Row {
                         Chip()
                         Spacer(modifier = Modifier.width(width = 16.dp))
