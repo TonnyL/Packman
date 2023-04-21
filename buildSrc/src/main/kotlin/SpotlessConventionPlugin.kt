@@ -2,7 +2,6 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import com.diffplug.gradle.spotless.SpotlessPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 
 class SpotlessConventionPlugin : Plugin<Project> {
 
@@ -44,14 +43,12 @@ class SpotlessConventionPlugin : Plugin<Project> {
                     endWithNewline()
                 }
 
-                val kotlinEditorConfigOverride = mapOf(
-                    "disabled_rules" to "no-wildcard-imports,no-unused-imports,no-blank-line-before-rbrace,chain-wrapping,no-empty-first-line-in-method-block",
-                    "android" to "true"
-                )
+                val editorConfigPath = rootProject.file(".editorconfig")
+
                 kotlin {
                     target("**/*.kt")
                     ktlint()
-                        .editorConfigOverride(kotlinEditorConfigOverride)
+                        .setEditorConfigPath(editorConfigPath)
                     trimTrailingWhitespace()
                     endWithNewline()
                 }
@@ -59,7 +56,7 @@ class SpotlessConventionPlugin : Plugin<Project> {
                 kotlinGradle {
                     target("**/*.kts")
                     ktlint()
-                        .editorConfigOverride(kotlinEditorConfigOverride)
+                        .setEditorConfigPath(editorConfigPath)
                     trimTrailingWhitespace()
                     endWithNewline()
                 }
