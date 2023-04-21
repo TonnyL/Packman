@@ -336,5 +336,5 @@ enum class MainAxisAlignment(internal val arrangement: Arrangement.Vertical) {
      * space before the first child and after the last child, but half the amount of space
      * existing otherwise between two consecutive children.
      */
-    SpaceAround(Arrangement.SpaceAround);
+    SpaceAround(Arrangement.SpaceAround)
 }

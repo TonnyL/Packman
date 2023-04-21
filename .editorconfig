@@ -1,0 +1,34 @@
+# https://editorconfig.org
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{java,kt,kts,scala,rs,xml,kt.spec,kts.spec}]
+indent_size = 4
+
+[*.{kt,kts}]
+ij_kotlin_allow_trailing_comma = false
+ij_kotlin_allow_trailing_comma_on_call_site = false
+
+ktlint_standard = enabled
+ktlint_experimental = enabled
+ktlint_code_style = official
+
+ktlint_standard_no-unused-imports = disabled
+ktlint_standard_no-wildcard-imports = disabled
+ktlint_standard_no-unused-imports = disabled
+ktlint_standard_no-blank-line-before-rbrace = disabled
+ktlint_standard_chain-wrapping = disabled
+ktlint_standard_no-empty-first-line-in-method-block = disabled
+ktlint_standard_trailing-comma-on-call-site = disabled
+ktlint_standard_trailing-comma-on-declaration-site = disabled
+
+[*.md]
+trim_trailing_whitespace = true
