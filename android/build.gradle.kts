@@ -73,7 +73,7 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(projects.common)
     implementation(libs.androidx.appcompat)
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.mdc.android)
