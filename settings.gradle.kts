@@ -20,3 +20,5 @@ dependencyResolutionManagement {
 rootProject.name = "Packman"
 
 include(":android", ":desktop", ":common")
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
