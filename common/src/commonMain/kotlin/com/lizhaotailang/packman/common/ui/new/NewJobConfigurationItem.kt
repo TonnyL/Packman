@@ -2,6 +2,8 @@ package com.lizhaotailang.packman.common.ui.new
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,13 +30,13 @@ import com.lizhaotailang.packman.common.data.Pipeline
 import com.lizhaotailang.packman.common.data.toInstant
 import com.lizhaotailang.packman.common.network.Resource
 import com.lizhaotailang.packman.common.network.Status
-import com.lizhaotailang.packman.common.ui.FlowRow
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalStdlibApi::class
+    ExperimentalStdlibApi::class,
+    ExperimentalLayoutApi::class
 )
 @Composable
 internal fun NewJobConfigurationItem(
