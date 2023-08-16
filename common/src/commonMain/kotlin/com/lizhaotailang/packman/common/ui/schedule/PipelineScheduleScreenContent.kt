@@ -120,17 +120,16 @@ internal fun PipelineScheduleScreenContent(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 private fun LazyListScope.pipelineScheduleInfoItem(
     headline: String,
     supporting: String
 ) {
     item {
         ListItem(
-            headlineText = {
+            headlineContent = {
                 Text(text = headline)
             },
-            supportingText = {
+            supportingContent = {
                 Text(
                     text = supporting,
                     style = MaterialTheme.typography.bodyMedium

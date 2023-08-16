@@ -1,7 +1,6 @@
 package com.lizhaotailang.packman.common.ui.schedules
 
 import androidx.compose.foundation.clickable
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -12,17 +11,16 @@ import com.lizhaotailang.packman.common.data.PipelineScheduleListItem
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun PipelineScheduleItem(
     item: PipelineScheduleListItem,
     onClick: (PipelineScheduleListItem) -> Unit
 ) {
     ListItem(
-        headlineText = {
+        headlineContent = {
             Text(text = "#${item.id} ${item.description}")
         },
-        supportingText = {
+        supportingContent = {
             val nextRunAt =
                 item.nextRunAt.toLocalDateTime(timeZone = TimeZone.of(zoneId = item.cronTimezone))
             Text(

@@ -19,10 +19,10 @@ import com.lizhaotailang.packman.common.ui.barsBackground
 import com.lizhaotailang.packman.common.ui.debug.DebugScreen
 import com.lizhaotailang.packman.common.ui.job.JobScreen
 import com.lizhaotailang.packman.common.ui.schedule.PipelineScheduleScreen
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
 import platform.UIKit.UIViewController
 import platform.UIKit.UIWindow
-import platform.UIKit.safeAreaInsets
 import kotlin.math.roundToInt
 
 @Composable
@@ -87,6 +87,7 @@ internal fun MainScreen(insets: WindowInsets) {
     }
 }
 
+@OptIn(ExperimentalForeignApi::class)
 @Suppress("UNUSED")
 fun mainViewController(window: UIWindow): UIViewController {
     val insets = window.safeAreaInsets.useContents {
