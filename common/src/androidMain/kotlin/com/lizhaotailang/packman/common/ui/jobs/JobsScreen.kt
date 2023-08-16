@@ -24,14 +24,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemsIndexed
+import androidx.paging.compose.itemKey
 import com.lizhaotailang.packman.common.ui.CiJobPreviewProviders
 import com.lizhaotailang.packman.common.ui.ErrorScreen
 import com.lizhaotailang.packman.common.ui.HomeViewModel
 import com.lizhaotailang.packman.common.ui.LocalNavController
 import com.lizhaotailang.packman.common.ui.Screen
 import com.lizhaotailang.packman.graphql.fragment.CiJob
-import com.lizhaotailang.packman.graphql.type.CiJobStatus.*
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -88,12 +87,11 @@ private fun CiJobsScreenContent(
     val navController = LocalNavController.current
 
     LazyColumn {
-        itemsIndexed(
-            items = jobs,
-            key = { _, item ->
-                item.id ?: ""
-            }
-        ) { index, item ->
+        items(
+            count = jobs.itemCount,
+            key = jobs.itemKey { it.id ?: "" }
+        ) { index ->
+            val item = jobs[index]
             if (index == 0) {
                 Spacer(modifier = Modifier.height(height = innerPaddings.calculateTopPadding()))
             }

@@ -252,17 +252,16 @@ internal fun JobScreenContent(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 private fun LazyListScope.jobInfoItem(
     headline: String,
     supporting: String
 ) {
     item {
         ListItem(
-            headlineText = {
+            headlineContent = {
                 Text(text = headline)
             },
-            supportingText = {
+            supportingContent = {
                 Text(
                     text = supporting,
                     style = MaterialTheme.typography.bodyMedium

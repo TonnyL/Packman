@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
@@ -26,21 +25,20 @@ import com.lizhaotailang.packman.graphql.type.CiJobStatus
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun JobListItem(
     job: CiJob,
     navigate: (CiJob) -> Unit
 ) {
     ListItem(
-        headlineText = {
+        headlineContent = {
             Text(
                 text = "${job.id} ${job.refName}",
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         },
-        supportingText = {
+        supportingContent = {
             val duration = job.duration?.let {
                 " • ${(it % 3600) / 60}:${it % 60}"
             } ?: ""

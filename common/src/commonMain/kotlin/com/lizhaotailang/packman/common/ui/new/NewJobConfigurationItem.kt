@@ -35,7 +35,6 @@ import kotlinx.datetime.toLocalDateTime
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalStdlibApi::class,
     ExperimentalLayoutApi::class
 )
 @Composable
@@ -109,18 +108,17 @@ internal fun NewJobConfigurationItem(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun HistoryItem(
     history: History,
     onClick: (History) -> Unit
 ) {
     ListItem(
-        headlineText = {
+        headlineContent = {
             Text(text = history.branch)
         },
-        supportingText = {
-            val variants = history.variants.map { Variant.values()[it] }.joinToString()
+        supportingContent = {
+            val variants = history.variants.map { Variant.entries[it] }.joinToString()
             val startedAt = history.startedAt.toInstant()
                 .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
             Text(text = "${variants}\n$startedAt")

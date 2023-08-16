@@ -42,10 +42,10 @@ internal fun DebugScreenContent(
         LazyColumn(contentPadding = paddingValues) {
             item(key = "insert_history") {
                 ListItem(
-                    headlineText = {
+                    headlineContent = {
                         Text(text = "Insert history into database")
                     },
-                    supportingText = {
+                    supportingContent = {
                         Text(text = "size: ${histories.size}")
                     },
                     modifier = Modifier.clickable(onClick = insertHistoryIntoDatabase)
