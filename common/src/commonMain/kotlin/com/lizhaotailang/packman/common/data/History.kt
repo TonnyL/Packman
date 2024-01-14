@@ -24,6 +24,10 @@ class History : RealmObject {
      */
     var pipelineId: Long = Long.MIN_VALUE
 
+    /**
+     * Empty string or null means not set.
+     */
+    var commitHash: String? = null
 }
 
 fun RealmInstant.toInstant(): Instant {

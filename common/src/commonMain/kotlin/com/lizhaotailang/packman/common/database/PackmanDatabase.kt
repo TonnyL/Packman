@@ -57,7 +57,7 @@ class PackmanDatabase(
 
     companion object {
 
-        private const val PACKMAN_REALM_SCHEMA_VERSION = 1L
+        private const val PACKMAN_REALM_SCHEMA_VERSION = 2L
 
     }
 
