@@ -21,7 +21,7 @@ version = "1.0-SNAPSHOT"
 kotlin {
     targetHierarchy.default()
 
-    android()
+    androidTarget()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -35,8 +35,6 @@ kotlin {
             baseName = "common"
             isStatic = true
         }
-        extraSpecAttributes["resources"] =
-            "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
     }
 
     jvm("desktop") {
@@ -108,6 +106,8 @@ kotlin {
 android {
     compileSdk = Versions.compileSdk
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
     defaultConfig {
         minSdk = Versions.minSdk
         targetSdk = Versions.targetSdk
